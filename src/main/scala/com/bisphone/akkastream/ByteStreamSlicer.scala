@@ -44,10 +44,13 @@ class ByteStreamSlicer(
       private def tryPush(): Unit = {
         if (buf.size >= sliceSize) pushSlice()
         else if (buf.size >= minChunkSize) {
-          val parsedLen = byteOrder.decodeInt(buf.iterator, lenOfLenField) // - lenOfLenField
-          if (parsedLen <= 0) failStage(new RuntimeException(s"Invalid value for slice's len: ${parsedLen}"))
+          val parsedLen = byteOrder.decodeLong(buf.iterator, lenOfLenField) // - lenOfLenFi1eld
+          if (parsedLen <= 0) 
+            failStage(new RuntimeException(s"Invalid value for slice's len: ${parsedLen}"))
+          else if (parsedLen > Int.MaxValue) 
+            failStage(new RuntimeException(s"Invalid value for slice's len: ${parsedLen}"))
           else {
-            sliceSize = parsedLen + minChunkSize
+            sliceSize = parsedLen.toInt // - lenOfLenField + minChunkSize
             if (sliceSize > maxLen)
               failStage(new RuntimeException(s"Maximum allowed frame size is $maxLen but decoded frame header reported size $sliceSize"))
             else if (buf.size >= sliceSize) pushSlice()

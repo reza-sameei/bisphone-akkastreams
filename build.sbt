@@ -4,7 +4,7 @@ organization := "com.bisphone"
 
 name := "akkastream"
 
-version := "0.3.2-SNAPSHOT"
+version := "0.4.0-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
@@ -20,7 +20,7 @@ fork := true
 libraryDependencies ++= Seq(
   akka("akka-actor"),
   akka("akka-stream"),
-  "com.bisphone" %% "std" % "0.7.3-SNAPSHOT"
+  "com.bisphone" %% "std" % "0.7.5-SNAPSHOT"
 )
 
 libraryDependencies ++= Seq(

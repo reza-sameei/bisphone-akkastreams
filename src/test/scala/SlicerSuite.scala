@@ -26,7 +26,7 @@ class SlicerSuite extends AkkaTest("SplitterSuite", ConfigFactory.load) {
     implicit val _order = byteOrder.javaValue
     val bytes = ByteString(str)
     ByteString.newBuilder
-      .putInt(bytes.length)
+      .putInt(lenOfLenField + bytes.length)
       .append(bytes)
       .result()
   }
@@ -43,11 +43,11 @@ class SlicerSuite extends AkkaTest("SplitterSuite", ConfigFactory.load) {
   def invalidSource(byteOrder: ByteOrder): Source[ByteString, NotUsed] = {
     implicit val order = byteOrder.javaValue
     val rsl = ByteString.newBuilder
-        .putInt("Before".size)
+        .putInt(lenOfLenField + "Before".size)
         .append(ByteString("Before"))
         .putInt(-12)
         .append(ByteString("Hello"))
-        .putInt("After".size)
+        .putInt(lenOfLenField + "After".size)
         .append(ByteString("After"))
         .result
     val ls = List(rsl.slice(0,4), rsl.slice(4, 10), rsl.slice(10, rsl.length))
