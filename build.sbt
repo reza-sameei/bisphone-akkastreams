@@ -4,15 +4,15 @@ organization := "com.bisphone"
 
 name := "akkastream"
 
-version := "0.4.1"
+version := "0.4.2"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.11"
 
 scalacOptions ++= Seq("-feature", "-deprecation", "-language:postfixOps")
 
 def akka (
   module: String,
-  version: String = "2.4.4"
+  version: String = "2.5.1"
 ) = "com.typesafe.akka" %% module % version
 
 fork := true
