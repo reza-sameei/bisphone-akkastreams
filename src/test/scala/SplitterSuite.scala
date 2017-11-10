@@ -1,4 +1,6 @@
 
+import scala.util.control.NonFatal
+
 import com.bisphone.akkastream.Splitter
 import com.bisphone.std._
 import org.scalatest._
@@ -11,7 +13,7 @@ import com.typesafe.config.ConfigFactory
 /**
   * @author Reza Samei <reza.samei.g@gmail.com>
   */
-class SplitterSuite extends AkkaTest("SplitterSuite", ConfigFactory.load) {
+class SplitterSuite extends AkkaFlatSpec("SplitterSuite", ConfigFactory.load) {
 
   implicit val materializer = ActorMaterializer()(system)
 
@@ -66,7 +68,7 @@ class SplitterSuite extends AkkaTest("SplitterSuite", ConfigFactory.load) {
 
     val ints = rightSource("right-source", list) { str =>
       try(str.toInt.stdright) catch {
-        case cause => /*ignore*/ str.stdleft
+        case NonFatal(cause) => /*ignore*/ str.stdleft
       }
     }
     val stream1 = ints runWith TestSink.probe[Int]
@@ -75,7 +77,7 @@ class SplitterSuite extends AkkaTest("SplitterSuite", ConfigFactory.load) {
 
     val strings = leftSource("right-source", list) { str =>
       try(str.toInt.stdright) catch {
-        case cause => /*ignore*/ str.stdleft
+        case NonFatal(cause) => /*ignore*/ str.stdleft
       }
     }
     val stream2 = strings runWith TestSink.probe[String]

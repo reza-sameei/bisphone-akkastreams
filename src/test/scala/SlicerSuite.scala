@@ -1,7 +1,7 @@
 import akka.NotUsed
 import akka.stream.ActorMaterializer
 import akka.util.ByteString
-import com.bisphone.testkit.AkkaTest
+import com.bisphone.testkit.AkkaFlatSpec
 import com.bisphone.util.ByteOrder
 import com.typesafe.config.ConfigFactory
 import akka.stream.scaladsl._
@@ -12,7 +12,7 @@ import com.bisphone.akkastream.{ByteStreamSlicer, _}
   * @author Reza Samei <reza.samei.g@gmail.com>
   */
 
-class SlicerSuite extends AkkaTest("SplitterSuite", ConfigFactory.load) {
+class SlicerSuite extends AkkaFlatSpec("SplitterSuite", ConfigFactory.load) {
 
   implicit val materializer = ActorMaterializer()(system)
 
